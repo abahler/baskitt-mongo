@@ -3,7 +3,7 @@ global.DATABASE_URL = 'mongodb://localhost/shopping-list-test';
 var chai = require('chai');
 var chaiHttp = require('chai-http');
 
-var server = require('../server.js');
+var server = require('../server.js');   // Gives us the 'app' object and 'runServer' function
 var Item = require('../models/item');
 
 var should = chai.should();
@@ -12,6 +12,8 @@ var app = server.app;
 chai.use(chaiHttp);
 
 describe('Shopping List', function() {
+    
+    // Must have Mongo running, or the 'before' and 'after' hooks will result in timeout errors
     before(function(done) {
         server.runServer(function() {
             Item.create({name: 'Broad beans'},
@@ -21,7 +23,7 @@ describe('Shopping List', function() {
             });
         });
     });
-
+    
     after(function(done) {
         Item.remove(function() {
             done();
@@ -39,10 +41,9 @@ describe('Shopping List', function() {
             res.body.should.be.a('array');
             res.body[0].should.be.a('object');
             // Test for keys
-            res.body[0].should.have.property('id');
+            res.body[0].should.have.property('_id');
             res.body[0].should.have.property('name');
             // Test for value types
-            res.body[0].id.should.be.a('number');
             res.body[0].name.should.be.a('string');
             // Test for value contents
             res.body[0].name.should.equal('Broad beans');
@@ -57,27 +58,22 @@ describe('Shopping List', function() {
         .post('/items')
         .send({'name': 'Kale'})
         .end(function(err, res) {
+            console.log('res body: ', res.body);
             should.equal(err, null);    // Asserting that there should be no error
             res.should.have.status(201);
             res.should.be.json;
             res.body.should.be.a('object');
             res.body.should.have.property('name');
-            res.body.should.have.property('id');
+            res.body.should.have.property('_id');
             res.body.name.should.be.a('string');
-            res.body.id.should.be.a('number');
+            res.body['_id'].should.be.a('string');
             res.body.name.should.equal('Kale');
-            storage.items.should.be.a('array');
-            storage.items.should.have.length(4);    // Can hard-code because we know we hard-coded 3 items initially
-            storage.items[3].should.be.a('object');
-            storage.items[3].should.have.property('id');
-            storage.items[3].should.have.property('name');
-            storage.items[3].id.should.be.a('number');
-            storage.items[3].name.should.be.a('string');
-            storage.items[3].name.should.equal('Kale');
+            // Should I also be checking the item itself, not just the response (like I did in the non-Mongo shopping list?)
             done();
         });
     });
     
+    /*
     it('should edit an item on PUT', function(done) {
         chai.request(app)
         .put('/items/1')
@@ -223,5 +219,6 @@ describe('Shopping List', function() {
             done();
         });
     });
+    */
     
 });
