@@ -20,7 +20,6 @@ var runServer = function(callback) {
 
         app.listen(config.PORT, function() {
             // Optional callback function to signal that everything is running
-            console.log('Listening on localhost:' + config.PORT);
             if (callback) {
                 callback();
             }
@@ -86,10 +85,7 @@ app.put('/items/:id', function(req, res) {
 
 // "Try It!" section: DELETE handler
 app.delete('/items/:id', function(req, res) {
-    console.log('delete items/:id', req.params.id);
-    
     Item.remove({ _id: req.params.id }, function(err, items) {
-        console.log("_id is " + req.params.id);
         if (err) {
             console.log('We have an error object...', err);
             res.status(500).json({
@@ -101,30 +97,6 @@ app.delete('/items/:id', function(req, res) {
         }
     });
 });
-
-/*
-// DELETE from non-Mongo shopping list
-app.delete('/items/:id', function(req, res) {
-    var id = req.params.id;
-    if (!id) {
-        res.status(400).json({'error': 'No id supplied to deletion service'});
-    }
-    id = parseInt(id);  // Make sure we're working with a number
-
-    // Supplied id needs to be in items list
-    if (storage.items[id] === undefined) {  
-        var msg = 'The supplied id was not found in the items list';
-        res.status(404).json({'error': msg});
-    } else {
-        var r = storage.delete(id);     // Returns true on success   
-        if (r) {
-            res.status(200);
-        } else {
-            res.status(500).json({'error': 'You passed a valid item id, but the item could not be deleted for some reason.'});
-        }
-    }
-});
-*/
 
 // Catch-all endpoint
 app.use('*', function(req, res) {
