@@ -14,6 +14,7 @@ chai.use(chaiHttp);
 describe('Shopping List', function() {
     
     // Must have Mongo running, or the 'before' and 'after' hooks will result in timeout errors
+    // TIM: Should I be doing beforeEach and afterEach, which according to docs, 
     before(function(done) {
         server.runServer(function() {
             Item.create({name: 'Broad beans'},
@@ -154,7 +155,6 @@ describe('Shopping List', function() {
         });
     });
     
-    /*
     it('should respond with a 404 on PUT with nonexistent id', function(done) {
         chai.request(app)
         .put('/items/2001')     // Nonexistent ID
@@ -166,6 +166,7 @@ describe('Shopping List', function() {
         });
     });
     
+    /*
     it('should respond with a 400 on PUT without body', function(done) {
         chai.request(app)
         .put('/items/1')    // No send() function called after the request method
