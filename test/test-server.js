@@ -14,7 +14,8 @@ chai.use(chaiHttp);
 describe('Shopping List', function() {
     
     // Must have Mongo running, or the 'before' and 'after' hooks will result in timeout errors
-    // TIM: Should I be doing beforeEach and afterEach, which according to docs, 
+    // TIM: Should I be doing beforeEach and afterEach, which according to docs, are the ones that run before and after each test?
+    //      Or do we want these to only run on opposite ends of the whole suite?
     before(function(done) {
         server.runServer(function() {
             Item.create({name: 'Broad beans'},
