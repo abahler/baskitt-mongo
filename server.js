@@ -70,15 +70,24 @@ app.post('/items', function(req, res) {
 
 // "Try It!" section: PUT handler
 app.put('/items/:id', function(req, res) {
+    var id = req.params.id;
     Item.findByIdAndUpdate(req.body.id,   // used both req.body.id and req.params.id and got same error:
                                             // 'CastError: Cast to ObjectId failed for value "1" at path "_id"'
         { $set: { name: req.body.name }}, 
         { new: true }, 
         function (err, item) {
             if (err) { 
-                return res.status(500).json({
-                    message: 'Internal Server Error'
-                });
+                if (!req.body || !('name' in req.body) || req.body.id != id) {
+                    // Will be testing for a 400 status if no body is passed to this method
+                    return res.status(400).json({
+                        message: 'Bad Request'
+                    });
+                } else {
+                    return res.status(500).json({
+                        message: 'Internal Server Error'
+                    });                    
+                }
+
             }
             res.status(201).json(item);
     });
