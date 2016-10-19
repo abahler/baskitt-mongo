@@ -75,8 +75,6 @@ app.put('/items/:id', function(req, res) {
         { $set: { name: req.body.name }}, 
         { new: true }, 
         function (err, item) {
-            console.log('item: ', item);
-            console.log('err: ', err);
             if (err) { 
                 return res.status(500).json({
                     message: 'Internal Server Error'
@@ -90,12 +88,10 @@ app.put('/items/:id', function(req, res) {
 app.delete('/items/:id', function(req, res) {
     Item.remove({ _id: req.params.id }, function(err, items) {
         if (err) {
-            console.log('We have an error object...', err);
             res.status(500).json({
                 message: 'Internal Server Error'
             });
         } else {
-            console.log('No error object present in the remove() callback function. Yay.');
             res.status(201).json(items);
         }
     });
