@@ -58,7 +58,6 @@ describe('Shopping List', function() {
         .post('/items')
         .send({'name': 'Kale'})
         .end(function(err, res) {
-            console.log('res body: ', res.body);
             should.equal(err, null);    // Asserting that there should be no error
             res.should.have.status(201);
             res.should.be.json;
@@ -75,11 +74,13 @@ describe('Shopping List', function() {
     
     it('should edit an item on PUT', function(done) {
         chai.request(app)
-        .put('/items/1')
-        .send({'name': 'Salmon', 'id': 1})
+        .put('/items/57fc467ed5e035071a411ce5')
+        .send({'name': 'Salmon', 'id': '57fc467ed5e035071a411ce5'})
         .end(function(err, res) {
+            console.log('Err from PUT test: ', err);
+            console.log('Res.body from PUT test: ', res.body);
             should.equal(err, null);
-            res.should.have.status(200);
+            res.should.have.status(201);
             res.should.be.json;
             res.body.should.be.a('object');
             res.body.should.have.property('name');
@@ -92,20 +93,19 @@ describe('Shopping List', function() {
         });
     });
     
-    /*
     it('should delete an item on DELETE', function(done) {
         chai.request(app)
-        .delete('/items/1')
-        .send({'id': 1})
+        .delete('/items/57fc467ed5e035071a411ce5')
+        .send({'id': '57fc467ed5e035071a411ce5'})
         .end(function(err, res) {
-            // console.log('err: ', err);
-            // console.log('res: ', res);   // These don't output anywhere while test is running
-            should.equal(err.message, null);
-            res.should.have.status(200);
+            console.log('res body from DELETE test: ', res.body);
+            should.equal(err, null);
+            res.should.have.status(201);
             done();
         });
     });
     
+    /*
     it('should respond with a 400 on POST without body data', function(done) {
         chai.request(app)
         .post('/items')
