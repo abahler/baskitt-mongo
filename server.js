@@ -70,6 +70,9 @@ app.post('/items', function(req, res) {
 
 // "Try It!" section: PUT handler
 app.put('/items/:id', function(req, res) {
+    console.log('Req dot params: ', req.params);
+    console.log('Req dot body', req.body);
+    
     var id = req.params.id;
     Item.findByIdAndUpdate(req.body.id,   // used both req.body.id and req.params.id and got same error:
                                             // 'CastError: Cast to ObjectId failed for value "1" at path "_id"'
@@ -82,7 +85,13 @@ app.put('/items/:id', function(req, res) {
                     return res.status(400).json({
                         message: 'Bad Request'
                     });
-                } else {
+                } 
+                /*else if (// nonexistent id passed //) {
+                    return res.status(404).json({
+                        message: 'Not Found'
+                    });
+                }*/ 
+                else {
                     return res.status(500).json({
                         message: 'Internal Server Error'
                     });                    
