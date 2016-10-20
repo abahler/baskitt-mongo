@@ -30,6 +30,13 @@ describe('Shopping List', function() {
         });
     });
     
+    /* TIM: 
+      I need to figure out how to test using the dummy data created inside the beforeEach function
+      The routes will operate on the existing, persistent data (which obviously shouldn't be touched)
+      Will have to look up how to operate on `Item` using Mongo functions like find(), create(), remove(), etc.
+      When copying the tests over from the non-Mongo version of the shopping list, 2 pass and 12 fail
+    */
+    
     it('should list items on GET', function(done) {
         chai.request(app)
         .get('/items')
