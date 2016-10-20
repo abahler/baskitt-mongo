@@ -30,21 +30,30 @@ describe('Shopping List', function() {
         });
     });
     
-    console.log('Item object: ', Item);
-    
-    // TIM: I need to figure out how to operate on dummy data (created in the beforeEach() function) 
-    // Will need to use Mongo/Mongoose functions
     it('should list items on GET', function(done) {
         chai.request(app)
         .get('/items')
         .end(function(err, res) {
             should.equal(err, null);
-            // How to test on dummy data?
+            res.should.have.status(200);
+            res.should.be.json;
+            // Test for return types
+            res.body.should.be.a('array');
+            res.body[0].should.be.a('object');
+            // Test for keys
+            res.body[0].should.have.property('id');
+            res.body[0].should.have.property('name');
+            // Test for value types
+            res.body[0].id.should.be.a('number');
+            res.body[0].name.should.be.a('string');
+            // Test for value contents
+            res.body[0].name.should.equal('Broad beans');
+            res.body[1].name.should.equal('Tomatoes');
+            res.body[2].name.should.equal('Peppers');
             done();
         });
     });
     
-    /*
     it('should add an item on POST', function(done) {
         chai.request(app)
         .post('/items')
@@ -55,49 +64,62 @@ describe('Shopping List', function() {
             res.should.be.json;
             res.body.should.be.a('object');
             res.body.should.have.property('name');
-            res.body.should.have.property('_id');
+            res.body.should.have.property('id');
             res.body.name.should.be.a('string');
-            res.body['_id'].should.be.a('string');
+            res.body.id.should.be.a('number');
             res.body.name.should.equal('Kale');
-            // Should I also be checking the item itself, not just the response (like I did in the non-Mongo shopping list?)
+            // 'storage' object does not exist in this version of the project
+            // storage.items.should.be.a('array');
+            // storage.items.should.have.length(4);    // Can hard-code because we know we hard-coded 3 items initially
+            // storage.items[3].should.be.a('object');
+            // storage.items[3].should.have.property('id');
+            // storage.items[3].should.have.property('name');
+            // storage.items[3].id.should.be.a('number');
+            // storage.items[3].name.should.be.a('string');
+            // storage.items[3].name.should.equal('Kale');
             done();
         });
     });
     
     it('should edit an item on PUT', function(done) {
         chai.request(app)
-        .put('/items/57fc467ed5e035071a411ce5')
-        .send({'name': 'Salmon', 'id': '57fc467ed5e035071a411ce5'})
+        .put('/items/1')
+        .send({'name': 'Spinach', 'id': 1})
         .end(function(err, res) {
-            console.log('Err from PUT test: ', err);
-            console.log('Res.body from PUT test: ', res.body);
             should.equal(err, null);
-            res.should.have.status(201);
+            res.should.have.status(200);
             res.should.be.json;
             res.body.should.be.a('object');
             res.body.should.have.property('name');
-            res.body.should.have.property('_id');
+            res.body.should.have.property('id');
             res.body.name.should.be.a('string');
-            res.body._id.should.be.a('string');
-            res.body.name.should.equal('Salmon');
-            // Same question as POST test: should I also check the item itself, as I did in the non-Mongo shopping list project?
+            res.body.id.should.be.a('number');
+            res.body.name.should.equal('Spinach');
+            // storage.items.should.be.a('array');
+            // // Omitted check for storage.items.length == 4 because what if it changes between test runs?
+            // storage.items[0].should.be.a('object');
+            // storage.items[0].should.have.property('name');
+            // storage.items[0].should.have.property('id');
+            // storage.items[0].name.should.be.a('string');
+            // storage.items[0].id.should.be.a('number');
+            // storage.items[0].name.should.equal('Spinach');
             done();
         });
     });
     
     it('should delete an item on DELETE', function(done) {
         chai.request(app)
-        .delete('/items/57fc467ed5e035071a411ce5')
-        .send({'id': '57fc467ed5e035071a411ce5'})
+        .delete('/items/1')
+        .send({'id': 1})
         .end(function(err, res) {
-            console.log('res body from DELETE test: ', res.body);
-            should.equal(err, null);
-            res.should.have.status(201);
+            // console.log('err: ', err);
+            // console.log('res: ', res);   // These don't output anywhere while test is running
+            should.equal(err.message, null);
+            res.should.have.status(200);
             done();
         });
     });
     
-    // Bug: returns a 500 instead of 400. Why?
     it('should respond with a 400 on POST without body data', function(done) {
         chai.request(app)
         .post('/items')
@@ -109,7 +131,6 @@ describe('Shopping List', function() {
         });
     });
     
-    // BUG: error message comes from 500 response instead of 400
     it('should respond with a 400 on POST without valid JSON', function(done) {
         chai.request(app)
         .post('/items')
@@ -205,6 +226,5 @@ describe('Shopping List', function() {
             done();
         });
     });
-    */
     
 });
