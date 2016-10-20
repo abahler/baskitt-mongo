@@ -14,9 +14,7 @@ chai.use(chaiHttp);
 describe('Shopping List', function() {
     
     // Must have Mongo running, or the 'before' and 'after' hooks will result in timeout errors
-    // TIM: Should I be doing beforeEach and afterEach, which according to docs, are the ones that run before and after each test?
-    //      Or do we want these to only run on opposite ends of the whole suite?
-    before(function(done) {
+    beforeEach(function(done) {
         server.runServer(function() {
             Item.create({name: 'Broad beans'},
                         {name: 'Tomatoes'},
@@ -26,35 +24,27 @@ describe('Shopping List', function() {
         });
     });
     
-    after(function(done) {
+    afterEach(function(done) {
         Item.remove(function() {
             done();
         });
     });
     
+    console.log('Item object: ', Item);
+    
+    // TIM: I need to figure out how to operate on dummy data (created in the beforeEach() function) 
+    // Will need to use Mongo/Mongoose functions
     it('should list items on GET', function(done) {
         chai.request(app)
         .get('/items')
         .end(function(err, res) {
             should.equal(err, null);
-            res.should.have.status(200);
-            res.should.be.json;
-            // Test for return types
-            res.body.should.be.a('array');
-            res.body[0].should.be.a('object');
-            // Test for keys
-            res.body[0].should.have.property('_id');
-            res.body[0].should.have.property('name');
-            // Test for value types
-            res.body[0].name.should.be.a('string');
-            // Test for value contents
-            res.body[0].name.should.equal('Broad beans');
-            res.body[1].name.should.equal('Tomatoes');
-            res.body[2].name.should.equal('Peppers');
+            // How to test on dummy data?
             done();
         });
     });
     
+    /*
     it('should add an item on POST', function(done) {
         chai.request(app)
         .post('/items')
@@ -74,7 +64,6 @@ describe('Shopping List', function() {
         });
     });
     
-    /*
     it('should edit an item on PUT', function(done) {
         chai.request(app)
         .put('/items/57fc467ed5e035071a411ce5')
@@ -95,7 +84,6 @@ describe('Shopping List', function() {
             done();
         });
     });
-    */
     
     it('should delete an item on DELETE', function(done) {
         chai.request(app)
@@ -109,7 +97,6 @@ describe('Shopping List', function() {
         });
     });
     
-    /*
     // Bug: returns a 500 instead of 400. Why?
     it('should respond with a 400 on POST without body data', function(done) {
         chai.request(app)
@@ -133,7 +120,6 @@ describe('Shopping List', function() {
             done();
         });
     });
-    */
     
     it('should respond with a 404 on PUT without id in endpoint', function(done) {
         chai.request(app)
@@ -167,7 +153,6 @@ describe('Shopping List', function() {
         });
     });
     
-    /*
     it('should respond with a 400 on PUT without body', function(done) {
         chai.request(app)
         .put('/items/1')    // No send() function called after the request method
