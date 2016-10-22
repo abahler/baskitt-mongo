@@ -4,7 +4,7 @@ var express = require('express');
 var bodyParser = require('body-parser');    
 var mongoose = require('mongoose');
 
-var config = require('./config.js');
+var config = require('./config');   // TIM: why './config' instead of './config.js'?
 
 var app = express();
 
@@ -19,7 +19,7 @@ var runServer = function(callback) {
         }
 
         app.listen(config.PORT, function() {
-            // Optional callback function to signal that everything is running
+            console.log('Listening on localhost:' + config.PORT);
             if (callback) {
                 callback();
             }
@@ -27,11 +27,12 @@ var runServer = function(callback) {
     });
 };
 
-if (require.main === module) {  // Makes this file both an executable script and a module
-                                // If the script is run directly (by running `node server.js`), 
-                                // then the runServer function will be called. 
-                                // But if the file is included from somewhere else (`require('./server')`),
-                                // then the function won't be called, allowing the server to be started at a different point.
+// Makes this file both an executable script and a module
+// If the script is run directly (by running `node server.js`), 
+// then the runServer function will be called. 
+// But if the file is included from somewhere else (`require('./server')`),
+// then the function won't be called, allowing the server to be started at a different point.
+if (require.main === module) {
     runServer(function(err) {
         if (err) {
             console.error(err);
@@ -68,14 +69,12 @@ app.post('/items', function(req, res) {
     });
 });
 
-// "Try It!" section: PUT handler
 app.put('/items/:id', function(req, res) {
     console.log('Req dot params: ', req.params);
     console.log('Req dot body', req.body);
     
     var id = req.params.id;
-    Item.findByIdAndUpdate(req.body.id,   // used both req.body.id and req.params.id and got same error:
-                                            // 'CastError: Cast to ObjectId failed for value "1" at path "_id"'
+    Item.findByIdAndUpdate(req.body.id, 
         { $set: { name: req.body.name }}, 
         { new: true }, 
         function (err, item) {
@@ -102,7 +101,6 @@ app.put('/items/:id', function(req, res) {
     });
 });
 
-// "Try It!" section: DELETE handler
 app.delete('/items/:id', function(req, res) {
     Item.remove({ _id: req.params.id }, function(err, items) {
         if (err) {

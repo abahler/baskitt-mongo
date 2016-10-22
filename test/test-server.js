@@ -3,8 +3,8 @@ global.DATABASE_URL = 'mongodb://localhost/shopping-list-test';
 var chai = require('chai');
 var chaiHttp = require('chai-http');
 
-var server = require('../server.js');   // Gives us the 'app' object and 'runServer' function
-var Item = require('../models/item');
+var server = require('../server.js');   // Gives us the app object and runServer function
+var Item = require('../models/item');   // TIM: why is the file referred to as 'item' instead of 'item.js'?
 
 var should = chai.should();
 var app = server.app;
@@ -23,7 +23,7 @@ describe('Shopping List', function() {
             });
         });
     });
-    
+
     afterEach(function(done) {
         Item.remove(function() {
             done();
@@ -48,10 +48,10 @@ describe('Shopping List', function() {
             res.body.should.be.a('array');
             res.body[0].should.be.a('object');
             // Test for keys
-            res.body[0].should.have.property('id');
+            res.body[0].should.have.property('_id');
             res.body[0].should.have.property('name');
             // Test for value types
-            res.body[0].id.should.be.a('number');
+            res.body[0]._id.should.be.a('string');
             res.body[0].name.should.be.a('string');
             // Test for value contents
             res.body[0].name.should.equal('Broad beans');
@@ -61,6 +61,7 @@ describe('Shopping List', function() {
         });
     });
     
+    /*
     it('should add an item on POST', function(done) {
         chai.request(app)
         .post('/items')
@@ -71,9 +72,9 @@ describe('Shopping List', function() {
             res.should.be.json;
             res.body.should.be.a('object');
             res.body.should.have.property('name');
-            res.body.should.have.property('id');
+            res.body.should.have.property('_id');
             res.body.name.should.be.a('string');
-            res.body.id.should.be.a('number');
+            res.body._id.should.be.a('number');
             res.body.name.should.equal('Kale');
             // 'storage' object does not exist in this version of the project
             // storage.items.should.be.a('array');
@@ -233,5 +234,6 @@ describe('Shopping List', function() {
             done();
         });
     });
+    */
     
 });
