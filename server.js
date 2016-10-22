@@ -57,6 +57,13 @@ app.get('/items', function(req, res) {
 });
 
 app.post('/items', function(req, res) {
+    // Need body data to proceed
+    if (Object.keys(req.body).length === 0) {
+        return res.status(400).json({
+            message: 'Bad Request'
+        });
+    }
+    
     Item.create({
         name: req.body.name
     }, function(err, item) {
