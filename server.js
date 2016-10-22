@@ -13,6 +13,8 @@ app.use(express.static('public'));  // Serve static assets
 
 // Runs the server and connects to the database
 var runServer = function(callback) {
+    mongoose.set('debug', true);
+    
     mongoose.connect(config.DATABASE_URL, function(err) {
         if (err && callback) {
             return callback(err);

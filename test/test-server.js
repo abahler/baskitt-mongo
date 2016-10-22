@@ -88,7 +88,6 @@ describe('Shopping List', function() {
         });
     });
     
-    /*
     // TIM: does this need to request a non-production _id value?
     it('should edit an item on PUT', function(done) {
         chai.request(app)
@@ -104,18 +103,10 @@ describe('Shopping List', function() {
             res.body.name.should.be.a('string');
             res.body.id.should.be.a('number');
             res.body.name.should.equal('Spinach');
-            // storage.items.should.be.a('array');
-            // // Omitted check for storage.items.length == 4 because what if it changes between test runs?
-            // storage.items[0].should.be.a('object');
-            // storage.items[0].should.have.property('name');
-            // storage.items[0].should.have.property('id');
-            // storage.items[0].name.should.be.a('string');
-            // storage.items[0].id.should.be.a('number');
-            // storage.items[0].name.should.equal('Spinach');
+            // Removed all tests of storage.items, because storage object doesn't exist in this version of the app
             done();
         });
     });
-    */
     
     it('should delete an item on DELETE', function(done) {
         chai.request(app)
@@ -173,9 +164,8 @@ describe('Shopping List', function() {
         });
     });
     
-    /* 
-    FAILING TEST
-    TIM: see the commented-out if-block in app.put() in server.js. How can I verify that the passed in id exists?
+    // FAILING TEST
+    // TIM: see the commented-out if-block in app.put() in server.js. How can I verify that the passed in id exists?
     it('should respond with a 404 on PUT with nonexistent id', function(done) {
         chai.request(app)
         .put('/items/2001')     // Nonexistent ID
@@ -186,9 +176,7 @@ describe('Shopping List', function() {
             done();
         });
     });
-    */
     
-    /*
     // TIM: why is the `err` object null when it should be `{message: 'Bad Request'}`
     it('should respond with a 400 on PUT without body', function(done) {
         chai.request(app)
@@ -200,9 +188,7 @@ describe('Shopping List', function() {
             done();
         });
     });
-    */
     
-    /*
     // TIM: the condition `!('name' in req.body)` evaluates to true, so the 400 response should be sent (see app.put on server.js). 
     // What am I missing here?
     it('should respond with a 400 to a PUT without valid JSON', function(done) {
@@ -215,9 +201,7 @@ describe('Shopping List', function() {
             done();
         });
     });
-    */
     
-    /*
     // TIM: same question as the '404 to a PUT with nonexistent id' test, around line 179. Once we solve one, we'll solve the other
     it('should respond with a 404 to a DELETE on an invalid id', function(done) {
         chai.request(app)
@@ -228,7 +212,6 @@ describe('Shopping List', function() {
             done();
         });
     }); 
-    */
     
     it('should respond with a 400 to a DELETE without an id', function(done) {
         chai.request(app)
