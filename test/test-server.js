@@ -61,7 +61,6 @@ describe('Shopping List', function() {
         });
     });
     
-    /*
     it('should add an item on POST', function(done) {
         chai.request(app)
         .post('/items')
@@ -74,7 +73,7 @@ describe('Shopping List', function() {
             res.body.should.have.property('name');
             res.body.should.have.property('_id');
             res.body.name.should.be.a('string');
-            res.body._id.should.be.a('number');
+            res.body._id.should.be.a('string');
             res.body.name.should.equal('Kale');
             // 'storage' object does not exist in this version of the project
             // storage.items.should.be.a('array');
@@ -89,6 +88,7 @@ describe('Shopping List', function() {
         });
     });
     
+    /*
     it('should edit an item on PUT', function(done) {
         chai.request(app)
         .put('/items/1')
