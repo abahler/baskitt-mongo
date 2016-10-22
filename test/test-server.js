@@ -151,7 +151,6 @@ describe('Shopping List', function() {
         });
     });
     
-    /*
     it('should respond with a 404 on PUT without id in endpoint', function(done) {
         chai.request(app)
         .put('/items')          // Omit id, because that's the endpoint we're testing
@@ -162,6 +161,7 @@ describe('Shopping List', function() {
         });
     });
     
+    /*
     it('should respond with a 400 on PUT when ids in endpoint and body differ', function(done) {
         chai.request(app)
         .put('/items/1')
