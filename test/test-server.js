@@ -161,7 +161,6 @@ describe('Shopping List', function() {
         });
     });
     
-    /*
     it('should respond with a 400 on PUT when ids in endpoint and body differ', function(done) {
         chai.request(app)
         .put('/items/1')
@@ -173,6 +172,7 @@ describe('Shopping List', function() {
         });
     });
     
+    /*
     it('should respond with a 404 on PUT with nonexistent id', function(done) {
         chai.request(app)
         .put('/items/2001')     // Nonexistent ID
@@ -184,6 +184,7 @@ describe('Shopping List', function() {
         });
     });
     
+    /*
     it('should respond with a 400 on PUT without body', function(done) {
         chai.request(app)
         .put('/items/1')    // No send() function called after the request method
