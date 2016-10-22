@@ -77,9 +77,6 @@ app.post('/items', function(req, res) {
 });
 
 app.put('/items/:id', function(req, res) {
-    console.log('Req dot params: ', req.params);
-    console.log('Req dot body', req.body);
-    
     var id = req.params.id;
     Item.findByIdAndUpdate(req.body.id, 
         { $set: { name: req.body.name }}, 
