@@ -77,13 +77,15 @@ app.post('/items', function(req, res) {
 });
 
 app.put('/items/:id', function(req, res) {
+    console.log('Req body: ', req.body);
+    console.log('name' in req.body);
     var id = req.params.id;
     Item.findByIdAndUpdate(req.body.id, 
         { $set: { name: req.body.name }}, 
         { new: true }, 
         function (err, item) {
             if (err) { 
-                if (!req.body || !('name' in req.body) || req.body.id != id) {
+                if (Object.keys(req.body).length === 0 || !('name' in req.body) || req.body.id != id || typeof req.body.name != 'string' ) {
                     // Will be testing for a 400 status if no body is passed to this method
                     return res.status(400).json({
                         message: 'Bad Request'
@@ -107,7 +109,6 @@ app.put('/items/:id', function(req, res) {
 
 app.delete('/items/:id', function(req, res) {
     Item.remove({ _id: req.params.id }, function(err, items) {
-        console.log('err value in callback:', err);
         if (err) {
             res.status(500).json({
                 message: 'Internal Server Error'
@@ -116,6 +117,10 @@ app.delete('/items/:id', function(req, res) {
             res.status(201).json(items);
         }
     });
+});
+
+app.delete('/items', function(req, res) {
+    res.status(400).json({message: 'Bad Request'});
 });
 
 // Catch-all endpoint
