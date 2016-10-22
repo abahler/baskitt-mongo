@@ -25,10 +25,11 @@ describe('Shopping List', function() {
     });
 
     afterEach(function(done) {
+        // Remove entire collection
         Item.remove(function() {
             done();
         });
-    });
+    }); 
     
     /* TIM: 
       I need to figure out how to test using the dummy data created inside the beforeEach function
@@ -37,7 +38,7 @@ describe('Shopping List', function() {
       When copying the tests over from the non-Mongo version of the shopping list, 2 pass and 12 fail
     */
     
-    it('should list items on GET', function(done) {
+    it('1. should list items on GET', function(done) {
         chai.request(app)
         .get('/items')
         .end(function(err, res) {
@@ -61,7 +62,7 @@ describe('Shopping List', function() {
         });
     });
     
-    it('should add an item on POST', function(done) {
+    it('2. should add an item on POST', function(done) {
         chai.request(app)
         .post('/items')
         .send({'name': 'Kale'})
@@ -88,24 +89,34 @@ describe('Shopping List', function() {
         });
     });
     
-    // TIM: does this need to request a non-production _id value?
-    it('should edit an item on PUT', function(done) {
-        chai.request(app)
-        .put('/items/57fc466dd5e035071a411ce4')
-        .send({'name': 'New miracle superfood', '_id': '57fc466dd5e035071a411ce4'})
-        .end(function(err, res) {
-            should.equal(err, null);
-            res.should.have.status(201);
-            res.should.be.json;
-            res.body.should.be.a('object');
-            res.body.should.have.property('name');
-            res.body.should.have.property('id');
-            res.body.name.should.be.a('string');
-            res.body.id.should.be.a('number');
-            res.body.name.should.equal('Spinach');
-            // Removed all tests of storage.items, because storage object doesn't exist in this version of the app
-            done();
-        });
+    it('3. should edit an item on PUT', function(done) {
+        
+        var testItemID;
+        // First need to find alphanumeric _id value for item
+        Item.findOne({name: 'Broad beans'}, function(e, item){
+            testItemID = item._id;
+            console.log('testItemID (within findOne() body):', testItemID);
+            
+            chai.request(app)
+            .put('/items/' + testItemID)
+            .send({'name': 'Spinach', 'id': testItemID})
+            .end(function(err, res) {
+                console.log('res dot body: ', res.body);
+                should.equal(err, null);
+                res.should.have.status(201);
+                res.should.be.json;
+                res.body.should.be.a('object');
+                res.body.should.have.property('name');
+                res.body.should.have.property('_id');
+                res.body.name.should.be.a('string');
+                res.body._id.should.be.a('string');
+                res.body.name.should.equal('Spinach');
+                // Removed all tests of storage.items, because storage object doesn't exist in this version of the app
+                done();
+            }); // end of end()
+            
+        }); // end of Item.find()
+        
     });
     
     it('should delete an item on DELETE', function(done) {
