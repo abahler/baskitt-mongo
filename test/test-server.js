@@ -88,14 +88,13 @@ describe('Shopping List', function() {
         });
     });
     
-    /*
     it('should edit an item on PUT', function(done) {
         chai.request(app)
-        .put('/items/1')
-        .send({'name': 'Spinach', 'id': 1})
+        .put('/items/57fc466dd5e035071a411ce4')
+        .send({'name': 'New miracle superfood', '_id': '57fc466dd5e035071a411ce4'})
         .end(function(err, res) {
             should.equal(err, null);
-            res.should.have.status(200);
+            res.should.have.status(201);
             res.should.be.json;
             res.body.should.be.a('object');
             res.body.should.have.property('name');
@@ -117,17 +116,18 @@ describe('Shopping List', function() {
     
     it('should delete an item on DELETE', function(done) {
         chai.request(app)
-        .delete('/items/1')
-        .send({'id': 1})
+        .delete('/items/57fc466dd5e035071a411ce4')
+        .send({'_id': '57fc466dd5e035071a411ce4'})
         .end(function(err, res) {
             // console.log('err: ', err);
             // console.log('res: ', res);   // These don't output anywhere while test is running
-            should.equal(err.message, null);
-            res.should.have.status(200);
+            should.equal(err, null);
+            res.should.have.status(201);
             done();
         });
     });
     
+    /*
     it('should respond with a 400 on POST without body data', function(done) {
         chai.request(app)
         .post('/items')

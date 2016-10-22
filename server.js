@@ -103,6 +103,7 @@ app.put('/items/:id', function(req, res) {
 
 app.delete('/items/:id', function(req, res) {
     Item.remove({ _id: req.params.id }, function(err, items) {
+        console.log('err value in callback:', err);
         if (err) {
             res.status(500).json({
                 message: 'Internal Server Error'
