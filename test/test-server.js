@@ -88,7 +88,8 @@ describe('Shopping List', function() {
         });
     });
     
-    /* // Doesn't work, so comment out and come back to it // 
+    /*
+    // TIM: does this need to request a non-production _id value?
     it('should edit an item on PUT', function(done) {
         chai.request(app)
         .put('/items/57fc466dd5e035071a411ce4')
@@ -172,7 +173,9 @@ describe('Shopping List', function() {
         });
     });
     
-    /*
+    /* 
+    FAILING TEST
+    TIM: see the commented-out if-block in app.put() in server.js. How can I verify that the passed in id exists?
     it('should respond with a 404 on PUT with nonexistent id', function(done) {
         chai.request(app)
         .put('/items/2001')     // Nonexistent ID
@@ -183,18 +186,25 @@ describe('Shopping List', function() {
             done();
         });
     });
+    */
     
     /*
+    // TIM: why is the `err` object null when it should be `{message: 'Bad Request'}`
     it('should respond with a 400 on PUT without body', function(done) {
         chai.request(app)
-        .put('/items/1')    // No send() function called after the request method
+        .put('/items/1')
+        .send()
         .end(function(err, res) {
-            should.equal(err.message, 'Bad Request');
+            should.equal(err, 'Bad Request');
             res.should.have.status(400);
             done();
         });
     });
+    */
     
+    /*
+    // TIM: the condition `!('name' in req.body)` evaluates to true, so the 400 response should be sent (see app.put on server.js). 
+    // What am I missing here?
     it('should respond with a 400 to a PUT without valid JSON', function(done) {
         chai.request(app)
         .put('/items/1')
@@ -203,9 +213,12 @@ describe('Shopping List', function() {
             should.equal(err.message, 'Bad Request');
             res.should.have.status(400);
             done();
-        })
+        });
     });
+    */
     
+    /*
+    // TIM: same question as the '404 to a PUT with nonexistent id' test, around line 179. Once we solve one, we'll solve the other
     it('should respond with a 404 to a DELETE on an invalid id', function(done) {
         chai.request(app)
         .delete('/items/2001')
@@ -214,7 +227,8 @@ describe('Shopping List', function() {
             res.should.have.status(404);
             done();
         });
-    });   // Badly formed id
+    }); 
+    */
     
     it('should respond with a 400 to a DELETE without an id', function(done) {
         chai.request(app)
@@ -237,6 +251,5 @@ describe('Shopping List', function() {
             done();
         });
     });
-    */
     
 });
