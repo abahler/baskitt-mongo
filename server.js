@@ -79,13 +79,12 @@ app.post('/items', function(req, res) {
 });
 
 app.put('/items/:id', function(req, res) {
-    console.log('Req body: ', req.body);
-    console.log('name' in req.body);
     var id = req.params.id;
     Item.findByIdAndUpdate(req.body.id, 
         { $set: { name: req.body.name }}, 
         { new: true }, 
         function (err, item) {
+            console.log('err object from callback: ', err);
             if (err) { 
                 if (Object.keys(req.body).length === 0 || !('name' in req.body) || req.body.id != id || typeof req.body.name != 'string' ) {
                     // Will be testing for a 400 status if no body is passed to this method
@@ -106,7 +105,8 @@ app.put('/items/:id', function(req, res) {
 
             }
             res.status(201).json(item);
-    });
+        }
+    );
 });
 
 app.delete('/items/:id', function(req, res) {
