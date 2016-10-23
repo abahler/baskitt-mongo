@@ -178,20 +178,23 @@ describe('Shopping List', function() {
         }); 
     });
     
-    /*
-    // TIM: the condition `!('name' in req.body)` evaluates to true, so the 400 response should be sent (see app.put on server.js). 
-    // What am I missing here?
     it('11. should respond with a 400 to a PUT without valid JSON', function(done) {
-        chai.request(app)
-        .put('/items/1')
-        .send({'wrongKey': 'foobar'})
-        .end(function(err, res) {
-            should.equal(err.message, 'Bad Request');
-            res.should.have.status(400);
-            done();
+        Item.findOne({name: 'Peppers'}, function(theError, theItem) {
+            var id = theItem._id;
+            console.log('id of Peppers in dummy data: ', id);
+           
+            chai.request(app)
+            .put('/items/' + id)
+            .send({'invalidKey': 'foobar'})
+            .end(function(err, res) {
+                should.equal(err.message, 'Bad Request');
+                res.should.have.status(400);
+                done();
+            });
         });
     });
     
+    /*
     // TIM: same question as the '404 to a PUT with nonexistent id' test, around line 179. Once we solve one, we'll solve the other
     it('12. should respond with a 404 to a DELETE on an invalid id', function(done) {
         chai.request(app)
