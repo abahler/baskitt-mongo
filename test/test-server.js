@@ -194,8 +194,6 @@ describe('Shopping List', function() {
         });
     });
     
-    /*
-    // TIM: same question as the '404 to a PUT with nonexistent id' test, around line 179. Once we solve one, we'll solve the other
     it('12. should respond with a 404 to a DELETE on an invalid id', function(done) {
         chai.request(app)
         .delete('/items/2001')
@@ -206,6 +204,7 @@ describe('Shopping List', function() {
         });
     }); 
     
+    /*
     it('13. should respond with a 400 to a DELETE without an id', function(done) {
         chai.request(app)
         .delete('/items')

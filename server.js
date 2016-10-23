@@ -98,6 +98,8 @@ app.put('/items/:id', function(req, res) {
                     return res.status(400).json({
                         message: 'Bad Request'
                     });
+                // Looking for the 'Cast to ObjectId failed' message feels hacky; 
+                // is there a way to check if item exists and get a simple bool back?
                 } else if (err.message.indexOf('Cast to ObjectId failed') != -1) {
                     return res.status(404).json({
                         message: 'Not Found'
@@ -116,10 +118,18 @@ app.put('/items/:id', function(req, res) {
 
 app.delete('/items/:id', function(req, res) {
     Item.remove({ _id: req.params.id }, function(err, items) {
+        console.log('err from DELETE service: ', err);
+        console.log('items var from DELETE service: ', items);
         if (err) {
-            res.status(500).json({
-                message: 'Internal Server Error'
-            });
+            if (err.message.indexOf('Cast to ObjectId failed') != -1) {
+                res.status(404).json({
+                    message: 'Not found'
+                });
+            } else {
+                res.status(500).json({
+                    message: 'Internal Server Error'
+                });                
+            }
         } else {
             res.status(201).json(items);
         }
