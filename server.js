@@ -79,6 +79,7 @@ app.post('/items', function(req, res) {
 });
 
 app.put('/items/:id', function(req, res) {
+    console.log('From PUT service...here is the req dot body: ', req.body);
     var id = req.params.id;
     Item.findByIdAndUpdate(req.body.id, 
         { $set: { name: req.body.name }}, 
@@ -91,13 +92,11 @@ app.put('/items/:id', function(req, res) {
                     return res.status(400).json({
                         message: 'Bad Request'
                     });
-                } 
-                /*else if (// nonexistent id passed //) {
+                } else if (err.message.indexOf('Cast to ObjectId failed') != -1) {
                     return res.status(404).json({
                         message: 'Not Found'
                     });
-                }*/ 
-                else {
+                } else {
                     return res.status(500).json({
                         message: 'Internal Server Error'
                     });                    
