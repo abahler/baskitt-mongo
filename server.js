@@ -86,13 +86,11 @@ app.put('/items/:id', function(req, res) {
         });
     }
     
-    console.log('From PUT service...here is the req dot body: ', req.body);
     var id = req.params.id;
     Item.findByIdAndUpdate(req.body.id, 
         { $set: { name: req.body.name }}, 
         { new: true }, 
         function (err, item) {
-            console.log('err object from callback: ', err);
             if (err) { 
                 if (req.body.id != id || typeof req.body.name != 'string' ) {
                     return res.status(400).json({
@@ -118,8 +116,6 @@ app.put('/items/:id', function(req, res) {
 
 app.delete('/items/:id', function(req, res) {
     Item.remove({ _id: req.params.id }, function(err, items) {
-        console.log('err from DELETE service: ', err);
-        console.log('items var from DELETE service: ', items);
         if (err) {
             if (err.message.indexOf('Cast to ObjectId failed') != -1) {
                 res.status(404).json({

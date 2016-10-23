@@ -204,7 +204,6 @@ describe('Shopping List', function() {
         });
     }); 
     
-    /*
     it('13. should respond with a 400 to a DELETE without an id', function(done) {
         chai.request(app)
         .delete('/items')
@@ -226,6 +225,5 @@ describe('Shopping List', function() {
             done();
         });
     });
-    */
     
 });
