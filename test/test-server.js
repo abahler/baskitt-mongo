@@ -4,7 +4,7 @@ var chai = require('chai');
 var chaiHttp = require('chai-http');
 
 var server = require('../server.js');   // Gives us the app object and runServer function
-var Item = require('../models/item');   // TIM: why is the file referred to as 'item' instead of 'item.js'?
+var Item = require('../models/item'); 
 
 var should = chai.should();
 var app = server.app;
@@ -69,25 +69,14 @@ describe('Shopping List', function() {
             res.body.name.should.be.a('string');
             res.body._id.should.be.a('string');
             res.body.name.should.equal('Kale');
-            // 'storage' object does not exist in this version of the project
-            // storage.items.should.be.a('array');
-            // storage.items.should.have.length(4);    // Can hard-code because we know we hard-coded 3 items initially
-            // storage.items[3].should.be.a('object');
-            // storage.items[3].should.have.property('id');
-            // storage.items[3].should.have.property('name');
-            // storage.items[3].id.should.be.a('number');
-            // storage.items[3].name.should.be.a('string');
-            // storage.items[3].name.should.equal('Kale');
             done();
         });
     });
     
     it('3. should edit an item on PUT', function(done) {
-        
-        var testItemID;
         // First need to find alphanumeric _id value for item
         Item.findOne({name: 'Broad beans'}, function(e, item){
-            testItemID = item._id;
+            var testItemID = item._id;
             console.log('testItemID (within findOne() body):', testItemID);
             
             chai.request(app)
@@ -107,9 +96,7 @@ describe('Shopping List', function() {
                 // Removed all tests of storage.items, because storage object doesn't exist in this version of the app
                 done();
             }); // end of end()
-            
         }); // end of Item.find()
-        
     });
     
     it('4. should delete an item on DELETE', function(done) {
@@ -168,7 +155,6 @@ describe('Shopping List', function() {
         });
     });
     
-    // TIM: see the commented-out if-block in app.put() in server.js. How can I verify that the passed in id exists?
     it('9. should respond with a 404 on PUT with nonexistent id', function(done) {
         chai.request(app)
         .put('/items/2001')     // Nonexistent ID
