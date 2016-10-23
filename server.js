@@ -79,6 +79,13 @@ app.post('/items', function(req, res) {
 });
 
 app.put('/items/:id', function(req, res) {
+    // Need body data to proceed
+    if (Object.keys(req.body).length === 0) {
+        return res.status(400).json({
+            message: 'Bad Request'
+        });
+    }
+    
     console.log('From PUT service...here is the req dot body: ', req.body);
     var id = req.params.id;
     Item.findByIdAndUpdate(req.body.id, 
@@ -87,7 +94,8 @@ app.put('/items/:id', function(req, res) {
         function (err, item) {
             console.log('err object from callback: ', err);
             if (err) { 
-                if (Object.keys(req.body).length === 0 || !('name' in req.body) || req.body.id != id || typeof req.body.name != 'string' ) {
+                console.log('obj keys length: ', Object.keys(req.body).length);
+                if ( !('name' in req.body) || req.body.id != id || typeof req.body.name != 'string' ) {
                     // Will be testing for a 400 status if no body is passed to this method
                     return res.status(400).json({
                         message: 'Bad Request'
