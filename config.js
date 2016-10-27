@@ -3,7 +3,7 @@
 exports.DATABASE_URL = process.env.DATABASE_URL ||
                        global.DATABASE_URL ||
                        (process.env.NODE_ENV === 'production' ?
-                            'mongodb://abahler:Mr00ben@ds031157.mlab.com:31157/baskitt' :
+                            'mongodb://thinkful:8#dsfjk72@ds031157.mlab.com:31157/baskitt' :
                             // 'mongodb://localhost/shopping-list':
                             'mongodb://localhost/shopping-list-dev');
                             
