@@ -20,7 +20,8 @@ var runServer = function(callback) {
             return callback(err);
         }
 
-        app.listen(config.PORT, function() {
+        // config.PORT is exported on line 10 of config.js
+        app.listen(config.PORT || 5000, function() {
             console.log('Listening on localhost:' + config.PORT);
             if (callback) {
                 callback();
@@ -48,6 +49,7 @@ exports.runServer = runServer;
 var Item = require('./models/item');
 
 app.get('/items', function(req, res) {
+    console.log('process dot env: ', process.env);
     Item.find(function(err, items) {
         if (err) {
             return res.status(500).json({
@@ -57,8 +59,6 @@ app.get('/items', function(req, res) {
         res.json(items);
     });
 });
-
-// test test test comment
 
 app.post('/items', function(req, res) {
     // Need body data to proceed
