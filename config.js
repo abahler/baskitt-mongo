@@ -7,4 +7,5 @@ exports.DATABASE_URL = process.env.DATABASE_URL ||
                             // 'mongodb://localhost/shopping-list':
                             'mongodb://localhost/shopping-list-dev');
                             
+// Remember, it should be `PORT`, not `port`
 exports.PORT = process.env.PORT || 5000;
