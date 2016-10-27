@@ -15,6 +15,10 @@ app.use(express.static('public'));  // Serve static assets
 var runServer = function(callback) {
     mongoose.set('debug', true);
     
+    // Set to production so DATABASE_URL uses mlab. 
+    // Not sure if this should be left here, because Travis will need to use the development db to run tests for each build/push.
+    process.env.NODE_ENV = 'production';
+    
     mongoose.connect(config.DATABASE_URL, function(err) {
         if (err && callback) {
             return callback(err);
@@ -49,7 +53,7 @@ exports.runServer = runServer;
 var Item = require('./models/item');
 
 app.get('/items', function(req, res) {
-    console.log('process dot env: ', process.env);
+    console.log('process dot env dot NODE_ENV: ', process.env.NODE_ENV);
     Item.find(function(err, items) {
         if (err) {
             return res.status(500).json({
