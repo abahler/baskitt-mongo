@@ -8,3 +8,10 @@ addons:
     - mongodb-3.2-precise
     packages:
     - mongodb-org-server
+deploy:
+  provider: heroku
+  api_key:
+    secure: GTC5Lcd8aLXg1Sj/TSiVI0Tpy7qYdMi+rXHhgW5sEf7mj5jmAH26cvhupLlBWk8ng8KqraDHdfKeD6BuENDzPZpwApRiKWInligpxSSQCyfZbsVRZP7XaAVQX1sxPoeroKZlKMmB7tXjm/Jz2oOAAyZm7JM0/k2BB2iQiggRltR62xwqrcbcpj5Vdy/hjsMa7jmFzq1Dzaj9dALdz388twE4Am2MXadmbmB0jpLNgzHHGhE4zZ6KZ85ZScCKnbhCn5S62XaKIKr+8v5I7C7YIn6fip3q3fBEFdZa90hFU06nX5WJh4QqgDaptj8+ygyfXBL4218HM1JnjBG1MkaCU33uVkrSQajqHfEOzln2G7+YNlnc4yyuEFsy4L7il+rJmkyXf8aFLLJ6NgamHkFv/bpj6uFER0FJHyxPVm+1aFnmzruFuFwQg80qQ1NPb8b8x06uR+wBMv6QQuqZJRU2ZJAaIVjy9IYo7ZNrrpFaCVK0htXFWmqHJe8Ee4mOHmSmaa1LRIiq6DsW72RQQVwpLOQUR9ZdlHaV9/d/6WQ8v5glYJpP6Kvtm1AG5p/WdiaSMXIFt5OkzBCuKrpV2kIW2ev+SUfCwmxzNTxTeF5vyyRghjekdmBvKcjAMvZnzlwymnRGttLlf4m9kY+251EzuoOJFDMPs/EuNyMU8IMxhlA=
+  app: warm-thicket-75220
+  on:
+    repo: abahler/baskitt-mongo
