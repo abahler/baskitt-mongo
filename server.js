@@ -1,14 +1,15 @@
 // *** Main server file ***
 
 var express = require('express');
-var bodyParser = require('body-parser');    
+var bodyParser = require('body-parser');    // By default, a POST request body is invisible without middleware  
 var mongoose = require('mongoose');
 
-var config = require('./config');   // TIM: why './config' instead of './config.js'?
+var config = require('./config');   
 
 var app = express();
 
-app.use(bodyParser.json());         // Middleware for request bodies
+// Per how app.use() works, these apply to all endpoints
+app.use(bodyParser.json());         // Middleware for request bodies.
 app.use(express.static('public'));  // Serve static assets
 
 // Runs the server and connects to the database

@@ -240,7 +240,7 @@ ShoppingList.prototype.editItem = function(id, name) {
     var item = {'name': name, 'id': id};
     var ajax = $.ajax('/items/' + id, {
         type: 'PUT',
-        data: JSON.stringify(item),
+        data: JSON.stringify(item),     // Takes names and values and puts it in double-quotes. Cannot have a JSON object with single-quotes.
         dataType: 'json',
         contentType: 'application/json'
     });
