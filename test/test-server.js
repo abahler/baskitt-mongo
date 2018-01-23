@@ -77,13 +77,11 @@ describe('Shopping List', function() {
         // First need to find alphanumeric _id value for item
         Item.findOne({name: 'Broad beans'}, function(e, item){
             var testItemID = item._id;
-            console.log('testItemID (within findOne() body):', testItemID);
             
             chai.request(app)
             .put('/items/' + testItemID)
             .send({'name': 'Spinach', 'id': testItemID})
             .end(function(err, res) {
-                console.log('res dot body: ', res.body);
                 should.equal(err, null);
                 res.should.have.status(201);
                 res.should.be.json;
@@ -104,8 +102,6 @@ describe('Shopping List', function() {
         .delete('/items/57fc466dd5e035071a411ce4')
         .send({'_id': '57fc466dd5e035071a411ce4'})
         .end(function(err, res) {
-            // console.log('err: ', err);
-            // console.log('res: ', res);   // These don't output anywhere while test is running
             should.equal(err, null);
             res.should.have.status(201);
             done();
@@ -181,7 +177,6 @@ describe('Shopping List', function() {
     it('11. should respond with a 400 to a PUT without valid JSON', function(done) {
         Item.findOne({name: 'Peppers'}, function(theError, theItem) {
             var id = theItem._id;
-            console.log('id of Peppers in dummy data: ', id);
            
             chai.request(app)
             .put('/items/' + id)

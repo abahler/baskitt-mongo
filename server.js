@@ -27,7 +27,6 @@ var runServer = function(callback) {
 
         // config.PORT is exported on line 10 of config.js
         app.listen(config.PORT || 5000, function() {
-            console.log('Listening on localhost:' + config.PORT);
             if (callback) {
                 callback();
             }
@@ -54,7 +53,6 @@ exports.runServer = runServer;
 var Item = require('./models/item');
 
 app.get('/items', function(req, res) {
-    console.log('process dot env dot NODE_ENV: ', process.env.NODE_ENV);
     Item.find(function(err, items) {
         if (err) {
             return res.status(500).json({
